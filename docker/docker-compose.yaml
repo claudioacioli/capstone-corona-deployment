@@ -1,0 +1,26 @@
+version: "3"
+services:
+  reverseproxy:
+    image: claudioacioli/capstone-reverseproxy
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - backend-country
+  backend-country:
+    image: claudioacioli/capstone-corona-api-country
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASS: $POSTGRES_PASS
+      POSTGRES_NAME: $POSTGRES_NAME
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_PORT: $POSTGRES_PORT
+  scheduler:
+    image: claudioacioli/capstone-corona-scheduler
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASS
+      POSTGRES_DATABASE: $POSTGRES_NAME
+      POSTGRES_HOST: $POSTGRES_HOST
+      POSTGRES_PORT: $POSTGRES_PORT
+
