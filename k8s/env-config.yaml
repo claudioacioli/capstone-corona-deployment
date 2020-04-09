@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  POSTGRES_NAME: "coronaboard"
+  POSTGRES_USER: "coronaboard"
+  POSTGRES_PASS: "123456"
+  POSTGRES_HOST: "192.168.122.1"
+  POSTGRES_PORT: "5432"
+metadata:
+  name: env-config

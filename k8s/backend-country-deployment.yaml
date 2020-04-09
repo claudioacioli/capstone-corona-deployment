@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: backend-country
+  name: backend-country
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: backend-country
+  template:
+    metadata:
+      labels:
+        service: backend-country
+    spec:
+      containers:
+        - name: capstone-corona-api-country
+          image: claudioacioli/capstone-corona-api-country
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: POSTGRES_PASS
+            - name: POSTGRES_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_NAME
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
