@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: backend-scheduler
+  name: backend-scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: backend-scheduler
+  template:
+    metadata:
+      labels:
+        service: backend-scheduler
+    spec:
+      containers:
+        - name: capstone-corona-scheduler
+          image: claudioacioli/capstone-corona-scheduler
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: POSTGRES_PASS
+            - name: POSTGRES_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: POSTGRES_NAME
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
