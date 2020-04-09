@@ -23,7 +23,7 @@ docker-compose -f docker-compose-build.yaml build --parallel
 docker-compose up
 ```
 
-# Run on Kubernetes Minikube
+## Run on Kubernetes Minikube
 
 Make the config files
 
